@@ -119,7 +119,8 @@ var UIController = (function() {
     budgetLabel: '.budget__value',
     incomeLabel: '.budget__income--value',
     expensesLabel: '.budget__expenses--value',
-    percentageLabel: '.budget__expenses--percentage'
+    percentageLabel: '.budget__expenses--percentage',
+    container: '.container'
 
   }
 
@@ -141,7 +142,7 @@ var UIController = (function() {
 
           if (type === 'inc') {
             element = DOMstrings.incomeContainer
-            html = `<div class="item clearfix" id="income-%id%">
+            html = `<div class="item clearfix" id="inc-%id%">
                         <div class="item__description">%description%</div>
                         <div class="right clearfix">
                           <div class="item__value">%value%</div>
@@ -152,7 +153,7 @@ var UIController = (function() {
                     </div>`
           }else if (type === 'exp') {
             element = DOMstrings.expensesContainer
-            html = `<div class="item clearfix" id="expense-%id%">
+            html = `<div class="item clearfix" id="exp-%id%">
                       <div class="item__description">%description%</div>
                       <div class="right clearfix">
                           <div class="item__value">%value%</div>
@@ -220,7 +221,9 @@ var controller = (function (budgetCtrl, UICtrl) {
       if (event.keyCode === 13 || event.which === 13) {
         ctrlAddItem()
       }
-    })
+    });
+
+    document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
   };
 
   var updateBudget = function() {
@@ -261,6 +264,19 @@ var controller = (function (budgetCtrl, UICtrl) {
 
 
   };
+
+  var ctrlDeleteItem = function(event) {
+      var itemID, splitID, type, ID;
+
+      itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+      if (itemID) {
+          splitID = itemID.split('-');
+          type = splitID[0];
+          ID = splitID[1]
+      }
+
+  }
 
   return{
       init: function() {
